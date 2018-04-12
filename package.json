@@ -1,0 +1,13 @@
+{
+  "name": "",
+  "version": "",
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "sppull": "^2.2.6",
+    "textract": "^2.2.0"
+  }
+}
