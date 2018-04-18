@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
 var fs = require("fs");
+var path = require('path');
 var textract = require('textract');
 var sppull = require("sppull").sppull;
 //var mongoose = require('mongoose'),
@@ -23,20 +24,45 @@ exports.list_all_tasks = function(req, res) {
         dlRootFolder: "./Resumes"
     };
 
+
+const directory = 'Resumes';
+
+fs.readdir(directory, (err, files) => {
+  if (err) throw err;
+
+  for (const file of files) {
+    fs.unlink(path.join(directory, file), err => {
+      if (err) throw err;
+      else
+      {
+        console.log("Existing files deleted",file);
+      }
+    });
+  }
+});
+
+
     sppull(context, options)
     .then(function(downloadResults) {
       console.log("Files are downloaded");
-      textract.fromFileWithPath('./Resumes/Resume.docx', function( error, text ) {
+      fs.readdir('./Resumes', function(err, items) {
+         for (var i=0; i<items.length; i++) {
+          console.log("path",items[i]);
 
-        res.json({ message: 'Files are downloaded' });
-        //nlpParser(text);
-        console.log("file data",text);
-      
-      })
+          textract.fromFileWithPath('./Resumes/'+items[i], function( error, text ) {
+
+            res.json({ message: 'Files are downloaded' });
+            //nlpParser(text);
+            console.log("file data",text);
+          
+          })
+        }
+        console.log("finished");
+        })
     })
     .catch(function(err) {
     //  console.log("Core error has happened", err);
-      res.json({ message: 'Core error has happened' });
+       res.json({ message: 'Core error has happened' });
     });
 
 

@@ -1,0 +1,4 @@
+C:\Users\Administrator
+C:\Program Files (x86)\Common Files\Microsoft Shared\Web Server Extensions\16
+C:\inetpub\wwwroot\wss\VirtualDirectories\28572
+C:\Windows\System32\drivers\etc
