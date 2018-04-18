@@ -7,7 +7,7 @@ var sppull = require("sppull").sppull;
 //var mongoose = require('mongoose'),
  // Task = mongoose.model('Tasks');
 
-exports.list_all_tasks = async function(req, res) {
+exports.list_all_tasks =  function(req, res) {
 
 //console.log(process.env.SITE_PASSWORD);
  var context = {
@@ -27,7 +27,7 @@ exports.list_all_tasks = async function(req, res) {
 
 const directory = 'Resumes';
 
- await fs.readdir(directory, (err, files) => {
+  fs.readdir(directory, (err, files) => {
   if (err) throw err;
 
   for (const file of files) {
@@ -42,7 +42,7 @@ const directory = 'Resumes';
 });
 
 
- await  sppull(context, options)
+   sppull(context, options)
     .then(function(downloadResults) {
       console.log("Files are downloaded");
       fs.readdir('./Resumes', function(err, items) {
