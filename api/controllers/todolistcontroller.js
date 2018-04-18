@@ -19,7 +19,8 @@ exports.list_all_tasks = function(req, res) {
     
     var options = {
       spRootFolder: "Shared%20Documents",
-      dlRootFolder: "."
+   //   dlRootFolder: "."
+        dlRootFolder: "./Resumes"
     };
 
     sppull(context, options)
