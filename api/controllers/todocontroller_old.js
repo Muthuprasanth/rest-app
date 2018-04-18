@@ -19,14 +19,14 @@ exports.list_all_tasks = function(req, res) {
     
     var options = {
       spRootFolder: "Shared%20Documents",
-   //   dlRootFolder: "."
-        dlRootFolder: "./Resumes"
+      dlRootFolder: "."
+   //     dlRootFolder: "./Resumes"
     };
 
     sppull(context, options)
     .then(function(downloadResults) {
       console.log("Files are downloaded");
-      textract.fromFileWithPath('./Resumes/Resume.docx', function( error, text ) {
+      textract.fromFileWithPath('Resume.docx', function( error, text ) {
 
         res.json({ message: 'Files are downloaded' });
         //nlpParser(text);
