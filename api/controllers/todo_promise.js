@@ -10,27 +10,23 @@ var http = require('http');
 var https = require('https');
 
 var request = require('request');
-var url = require('url');
 
 exports.list_all_tasks =  function(req, res) {
 
 //console.log(process.env.SITE_PASSWORD);
-var filename = req.query.filename;
-var url2 = "https://siriuscomsharepoint.sharepoint.com/_api/web/GetFileByServerRelativeUrl('/Shared%20Documents/"+filename+"')/$value";
-console.log("filename",filename);
-var context = {
-  siteUrl: process.env.SITE_URL,
-  creds: {
-    username: process.env.SITE_USERNAME,
-    password: process.env.SITE_PASSWORD
-  }
-};
-
-var options = {
-  spRootFolder: "Shared%20Documents",
-//   dlRootFolder: "."
-    dlRootFolder: "./Resumes"
-};
+ var context = {
+    siteUrl: process.env.SITE_URL,
+    creds: {
+      username: process.env.SITE_USERNAME,
+      password: process.env.SITE_PASSWORD
+    }
+  };
+    
+    var options = {
+      spRootFolder: "Shared%20Documents",
+   //   dlRootFolder: "."
+        dlRootFolder: "./Resumes"
+    };
 
 const directory = 'Resumes';
 
@@ -47,6 +43,7 @@ const directory = 'Resumes';
     });
   }
 });
+
 
 var inputdata={
   grant_type:"client_credentials",
@@ -72,54 +69,58 @@ try {
       url: url1,    
     }
     console.log("11");
-
+    var response = {};
+    return new Promise(function(resolve, reject) {
     request(options1, function (err, result, body) {
     
       if(err){
         console.log("err",err);
+        
+        response.success = false;
+        response.error = err;
         // res.json({ message: 'Error occurred in Reading a file'+ err });
+        resolve(response);
       }
       else{
-          body = JSON.parse(body);
+         // body = JSON.parse(body);
           console.log("response from ",body);
-          token = body.access_token;
-         // console.log("first 22",token);
-
-              try {
-               //   var url2 = "https://siriuscomsharepoint.sharepoint.com/_api/web/GetFileByServerRelativeUrl('/Shared%20Documents/C_locations.txt')/$value";
-                  //var token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkZTaW11RnJGTm9DMHNKWEdtdjEzbk5aY2VEYyIsImtpZCI6IkZTaW11RnJGTm9DMHNKWEdtdjEzbk5aY2VEYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvc2lyaXVzY29tc2hhcmVwb2ludC5zaGFyZXBvaW50LmNvbUBlZmQ1ZTMwOS01OGI1LTRiNzMtOTg4NC1mYjRkMDI1MmFhOGEiLCJpc3MiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAZWZkNWUzMDktNThiNS00YjczLTk4ODQtZmI0ZDAyNTJhYThhIiwiaWF0IjoxNTI0NDgxNTUwLCJuYmYiOjE1MjQ0ODE1NTAsImV4cCI6MTUyNDQ4NTQ1MCwiaWRlbnRpdHlwcm92aWRlciI6IjAwMDAwMDAxLTAwMDAtMDAwMC1jMDAwLTAwMDAwMDAwMDAwMEBlZmQ1ZTMwOS01OGI1LTRiNzMtOTg4NC1mYjRkMDI1MmFhOGEiLCJuYW1laWQiOiI5ZTAzMzYxZi00MjU3LTQ2ZmQtOTJlMy0yODM3MjViNzNkMmZAZWZkNWUzMDktNThiNS00YjczLTk4ODQtZmI0ZDAyNTJhYThhIiwib2lkIjoiNDZiZTgwODEtNDhjNy00YTZhLTkzMjUtYTRlNDliN2EyODE5Iiwic3ViIjoiNDZiZTgwODEtNDhjNy00YTZhLTkzMjUtYTRlNDliN2EyODE5IiwidHJ1c3RlZGZvcmRlbGVnYXRpb24iOiJmYWxzZSJ9.ZTcz5A4D66jAiAwJbFdhnvi516SOM4Bv7KPFEzSTW6tGfX3n2unAb8QCeohxf6FR6rcPG0HjQ2v8iEylpIfv5WfYNwJXN8-aXWj69FjHIeyJfHoITUJpb9rTEKbTuq-pUj3BKKgC8krd26ojpiiAFNJ5LIJ9DtHOCd4-hqW_SmeTY65JRjTqnbCGaq8uZKBG9RlagdxTQSkKj4e_xNCk05ajhuVr6QXrKZn1PT4J9eO3o7gECBPxhxyZ-pkieTzeMub1A0KuZCFbiItdvo2IxlnSokbnBQmOtTyMpqFcNDN7rwXw36_hylqvCSIY3sc3d-DvAjWwT6oNKq66dNCXPQ";
-                  var options2 = {
-                    method: 'get',
-                  //  body: JSON.stringify(dd),
-                    url: url2,
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    }
-
-                  }
-               //    console.log("22",token);
-               request(options2, function (err, result, body) {
-                  
-                    if(err){
-                      console.log("err",err);
-                       res.json({ message: 'Error occurred in Reading a file'+ err });
-                    }
-                    else{
-                      //  body = JSON.parse(body);
-                        console.log("result meet",body);
-                        //console.log(typeof(result));
-                        res.json({ message: 'Files are downloaded' });
-                       
-                    }
-                    
-                    });
-
-              } catch (err) {
-                   
-                    res.json({ message: 'Error occurred'+ err});
-                  }
+        token = body.access_token;
+          //console.log(typeof(result));
+       //   res.json({ message: 'Files are downloaded' });
+       response.success = true;
+        response.result = token;
+       resolve(response);
          
-        }
+      }
+      
+      }).then(function(response){
+        if(response.success){
+          try {
+    var url = "https://siriuscomsharepoint.sharepoint.com/_api/web/GetFileByServerRelativeUrl('/Shared%20Documents/C_locations.txt')/$value";
+    //var token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkZTaW11RnJGTm9DMHNKWEdtdjEzbk5aY2VEYyIsImtpZCI6IkZTaW11RnJGTm9DMHNKWEdtdjEzbk5aY2VEYyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvc2lyaXVzY29tc2hhcmVwb2ludC5zaGFyZXBvaW50LmNvbUBlZmQ1ZTMwOS01OGI1LTRiNzMtOTg4NC1mYjRkMDI1MmFhOGEiLCJpc3MiOiIwMDAwMDAwMS0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDBAZWZkNWUzMDktNThiNS00YjczLTk4ODQtZmI0ZDAyNTJhYThhIiwiaWF0IjoxNTI0NDgxNTUwLCJuYmYiOjE1MjQ0ODE1NTAsImV4cCI6MTUyNDQ4NTQ1MCwiaWRlbnRpdHlwcm92aWRlciI6IjAwMDAwMDAxLTAwMDAtMDAwMC1jMDAwLTAwMDAwMDAwMDAwMEBlZmQ1ZTMwOS01OGI1LTRiNzMtOTg4NC1mYjRkMDI1MmFhOGEiLCJuYW1laWQiOiI5ZTAzMzYxZi00MjU3LTQ2ZmQtOTJlMy0yODM3MjViNzNkMmZAZWZkNWUzMDktNThiNS00YjczLTk4ODQtZmI0ZDAyNTJhYThhIiwib2lkIjoiNDZiZTgwODEtNDhjNy00YTZhLTkzMjUtYTRlNDliN2EyODE5Iiwic3ViIjoiNDZiZTgwODEtNDhjNy00YTZhLTkzMjUtYTRlNDliN2EyODE5IiwidHJ1c3RlZGZvcmRlbGVnYXRpb24iOiJmYWxzZSJ9.ZTcz5A4D66jAiAwJbFdhnvi516SOM4Bv7KPFEzSTW6tGfX3n2unAb8QCeohxf6FR6rcPG0HjQ2v8iEylpIfv5WfYNwJXN8-aXWj69FjHIeyJfHoITUJpb9rTEKbTuq-pUj3BKKgC8krd26ojpiiAFNJ5LIJ9DtHOCd4-hqW_SmeTY65JRjTqnbCGaq8uZKBG9RlagdxTQSkKj4e_xNCk05ajhuVr6QXrKZn1PT4J9eO3o7gECBPxhxyZ-pkieTzeMub1A0KuZCFbiItdvo2IxlnSokbnBQmOtTyMpqFcNDN7rwXw36_hylqvCSIY3sc3d-DvAjWwT6oNKq66dNCXPQ";
+    var options = {
+      method: 'get',
+    //  body: JSON.stringify(dd),
+      url: url,
+      headers: {
+          'Authorization': 'Bearer ' + token,
+      }
+
+    }
+     console.log("22",token);
+ request(options, function (err, result, body) {
+    
+      if(err){
+        console.log("err",err);
+         res.json({ message: 'Error occurred in Reading a file'+ err });
+      }
+      else{
+        //  body = JSON.parse(body);
+          console.log("result meet",body);
+          //console.log(typeof(result));
+          res.json({ message: 'Files are downloaded' });
+         
+      }
       
       });
 
@@ -127,6 +128,17 @@ try {
      
       res.json({ message: 'Error occurred'+ err});
     }
+        }
+
+      });
+  });
+
+} catch (err) {
+     
+      res.json({ message: 'Error occurred'+ err});
+    }
+
+
 
 
 
