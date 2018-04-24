@@ -11,6 +11,7 @@ var https = require('https');
 
 var request = require('request');
 var url = require('url');
+var Sendgrid = require("sendgrid-web");
 
 var filename ="";
 exports.list_all_tasks =  function(req, res) {
@@ -166,8 +167,31 @@ function nlpParser(text){
     console.log("file: "+filename+" email: "+emails+" "+" phones"+phones+"\n");
     //console.log(emails);
     //console.log(phones)
+    sendMail(emails);
 }
 
+function sendMail(emails)
+{
+ var sendgrid = new Sendgrid({
+        user: process.env.SENDGRID_USER,//provide the login credentials
+        key:process.env.SENDGRID_PASSWORD
+      });
+    sendgrid.send({
+    to: emails,
+    from: 'mprasanth113@gmail.com',
+    subject: 'Azure Mail',
+    html: '<h1>Hello Azure!</h1>'
+  }, function (err) {
+    if (err) {
+      console.log(err);
+      session.send("Mail not send error");
+    } else {
+      console.log("Success.");
+      session.send("Mail sended From Azure ");
+    }
+  });
+
+}
 function GetEmailsFromString(text) {
     return text.match(/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
   }
