@@ -12,10 +12,11 @@ var https = require('https');
 var request = require('request');
 var url = require('url');
 
+var filename ="";
 exports.list_all_tasks =  function(req, res) {
 
 //console.log(process.env.SITE_PASSWORD);
-var filename = req.query.filename;
+filename = req.query.filename;
 var url2 = "https://siriuscomsharepoint.sharepoint.com/_api/web/GetFileByServerRelativeUrl('/Shared%20Documents/"+filename+"')/$value";
 console.log("filename",filename);
 var context = {
@@ -108,6 +109,7 @@ try {
                       //  body = JSON.parse(body);
                         console.log("result meet",body);
                         //console.log(typeof(result));
+                        nlpParser(body);
                         res.json({ message: 'Files are downloaded' });
                        
                     }
@@ -127,33 +129,6 @@ try {
      
       res.json({ message: 'Error occurred'+ err});
     }
-
-
-
-
-
-/*
-const download = new Download(context);
- 
-let filePathToDownload = 'https://siriuscomsharepoint.sharepoint.com/Shared%20Documents/C_locations.txt';
-let saveToPath = './Resumes';
- 
-download.downloadFile(filePathToDownload, saveToPath)
-  .then(savedToPath => {
-    console.log(`${argv.url} has been downloaded to ${savedToPath}`);
-  })
-  .catch(error => {
-    console.log("Your error",error);
-  });
-
-*/
-
-/*
-var file = fs.createWriteStream("sample.txt");
-var request = https.get("https://siriuscomsharepoint.sharepoint.com/Shared%20Documents/C_locations.txt", function(response) {
-  response.pipe(file);  
-});
-*/
 
   /* sppull(context, options)
     .then(function(downloadResults) {
@@ -181,6 +156,25 @@ var request = https.get("https://siriuscomsharepoint.sharepoint.com/Shared%20Doc
 */
 
 };
+
+
+function nlpParser(text){
+    //var tokenizer = new natural.WordTokenizer();
+    //console.log(tokenizer.tokenize(text));
+    var emails = GetEmailsFromString(text);
+    var phones = GetPhoneFromString(text);
+    console.log("file: "+filename+" email: "+emails+" "+" phones"+phones+"\n");
+    //console.log(emails);
+    //console.log(phones)
+}
+
+function GetEmailsFromString(text) {
+    return text.match(/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+  }
+
+  function GetPhoneFromString(text) {
+    return text.match(/(?:\+?\d{2}[ -]?\d{3}[ -]?\d{5}|\d{4})/gi);
+  }
 
 
 
