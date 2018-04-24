@@ -183,11 +183,11 @@ function sendMail(emails)
     html: '<h1>Hello Azure!</h1>'
   }, function (err) {
     if (err) {
-      console.log(err);
-      session.send("Mail not send error");
+      console.log("Mail error",err);
+ //     session.send("Mail not send error");
     } else {
-      console.log("Success.");
-      session.send("Mail sended From Azure ");
+      console.log("Success Mail sended From Azure ");
+   //   session.send("Mail sended From Azure ");
     }
   });
 
