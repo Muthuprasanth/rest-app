@@ -143,12 +143,22 @@ promiseTOGetSendgridCredential.then(function(){
 });
 
 };
-
+var emails=""; 
+var phones;
 function nlpParser(text){
-    var emails = GetEmailsFromString(text);
-    var phones = GetPhoneFromString(text);
+
+    emails = GetEmailsFromString(text);
+     phones = GetPhoneFromString(text);
     console.log("file: "+filename+" email: "+emails+" "+" phones"+phones+"\n");
-    sendMail(emails);
+    if (emails) {
+     sendMail(emails);
+    }
+    else
+    {
+      //process.exit();
+      console.log("No Email found in "+filename);
+    }
+    
 }
 
 function sendMail(emails)
@@ -159,8 +169,8 @@ function sendMail(emails)
         key:sendgridCredentials[1]
       });
 sendgrid.send({
-        to: 'mprasanth113@gmail.com',
-        from: 'prasanthmurugesan212@gmail.com',
+        to: emails,
+        from: 'mprasanth113@gmail.com',
         subject: 'Azure Mail',
         html: '<h1>Hello Azure!</h1>'
   }, function (err) {
