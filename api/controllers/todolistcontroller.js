@@ -171,7 +171,7 @@ function sendMail(emails)
 sendgrid.send({
         to: emails,
         from: 'mprasanth113@gmail.com',
-        subject: 'Azure Mail',
+        subject: 'Azure Mail '+filename,
         html: '<h1>Hello Azure!</h1>'
   }, function (err) {
     if (err) {
