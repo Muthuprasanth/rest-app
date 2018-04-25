@@ -156,7 +156,7 @@ function nlpParser(text){
     else
     {
       //process.exit();
-      console.log("No Email found in "+filename);
+      console.log("No Email found in  "+filename);
     }
     
 }
