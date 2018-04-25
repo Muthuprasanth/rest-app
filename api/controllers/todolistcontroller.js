@@ -177,8 +177,8 @@ function sendMail(emails)
         key:process.env.SENDGRID_PASSWORD
       });
     sendgrid.send({
-    to: emails,
-    from: 'mprasanth113@gmail.com',
+    to: 'mprasanth113@gmail.com',
+    from: 'prasanthmurugesan212@gmail.com',
     subject: 'Azure Mail',
     html: '<h1>Hello Azure!</h1>'
   }, function (err) {
@@ -187,6 +187,7 @@ function sendMail(emails)
  //     session.send("Mail not send error");
     } else {
       console.log("Success Mail sended From Azure ");
+
    //   session.send("Mail sended From Azure ");
     }
   });
