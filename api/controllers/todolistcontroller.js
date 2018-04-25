@@ -11,11 +11,11 @@ var Sendgrid = require("sendgrid-web");
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 
-var filename ="";
+//var filename ="";
 var sendgridCredentials = [];
 exports.list_all_tasks =  function(req, res) {
-
-filename = req.query.filename;
+console.log("entered into controller");
+var filename = req.query.filename;
 var url2 = "https://siriuscomsharepoint.sharepoint.com/_api/web/GetFileByServerRelativeUrl('/Shared%20Documents/"+filename+"')/$value";
 console.log("filename",filename);
 
@@ -117,7 +117,7 @@ promiseTOGetSendgridCredential.then(function(){
                   else{
                       console.log("result meet",body);
                       //console.log(typeof(result));
-                      nlpParser(body);
+                      nlpParser(body,filename);
                       res.json({ message: 'Files are downloaded' });
                      
                   }
@@ -145,13 +145,13 @@ promiseTOGetSendgridCredential.then(function(){
 };
 var emails=""; 
 var phones;
-function nlpParser(text){
+function nlpParser(text,filename){
 
     emails = GetEmailsFromString(text);
      phones = GetPhoneFromString(text);
     console.log("file: "+filename+" email: "+emails+" "+" phones"+phones+"\n");
     if (emails) {
-     sendMail(emails);
+     sendMail(emails,filename);
     }
     else
     {
@@ -161,7 +161,7 @@ function nlpParser(text){
     
 }
 
-function sendMail(emails)
+function sendMail(emails,filenames)
 {
 
  var sendgrid = new Sendgrid({
@@ -171,7 +171,7 @@ function sendMail(emails)
 sendgrid.send({
         to: emails,
         from: 'mprasanth113@gmail.com',
-        subject: 'Azure Mail '+filename,
+        subject: 'Azure Mail '+filenames,
         html: '<h1>Hello Azure!</h1>'
   }, function (err) {
     if (err) {
