@@ -126,7 +126,7 @@ try {
       res.json({ message: 'Error occurred'+ err});
     }
 
-  /* sppull(context, options)
+   sppull(context, options)
     .then(function(downloadResults) {
       console.log("Files are downloaded");
       fs.readdir('./Resumes', function(err, items) {
@@ -149,7 +149,7 @@ try {
     //  console.log("Core error has happened", err);
        res.json({ message: 'Core error has happened' });
     });
-*/
+
 
 };
 

@@ -65,8 +65,8 @@ exports.list_all_tasks =  function(req, res) {
 
   //End of getting sendgrid credential from azure SqlDB
   promiseTOGetSendgridCredential.then(function(){
-    if(extname==".txt") //this if for getting contents form text file using Sharepoint rest API
-    {
+    if(extname==".txt") { //this if for getting contents form text file using Sharepoint rest API
+  
       console.log("Its a txt file");
       try {
       var url1 = "https://accounts.accesscontrol.windows.net/efd5e309-58b5-4b73-9884-fb4d0252aa8a/tokens/OAuth/2";
@@ -122,22 +122,13 @@ exports.list_all_tasks =  function(req, res) {
       res.json({ message: 'Error occurred'+ err});
     }
     }
-    else{ //this is for getting contents from non txt file by downloading it to the Resumes folder
-      console.log("Its a DOC file");
-   //   const directory = 'Resumes';
-  /*    fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
-        if (err) throw err;
-        for (const file of files) {
-         fs.unlink(path.join(directory, file), err => {
-            if (err) throw err;
-            else
-            {
-              console.log("Existing files deleted",file);
-            }
-           });
-          }
-      });*/
+    else { //this is for getting contents from non txt file by downloading it to the Resumes folder
+      try{
 
+
+      console.log("Its a DOC file");
+      const directory = 'Resumes';
+     
      var context = {
         siteUrl: process.env.SITE_URL,
         creds: {
@@ -153,26 +144,54 @@ exports.list_all_tasks =  function(req, res) {
           filename
           ]
       };
-
      sppull(context, options)
-      .then(function(downloadResults) {
-        console.log("Files are downloaded");
-            textract.fromFileWithPath('./Resumes/'+filename, function( error, text ) {
-              nlpParser(text,filename);
-              console.log("file dataddddddd",text);          
-            })
-          console.log("finished");
-        res.json({ message: 'Files are downloaded' });
-      })
-      .catch(function(err) {
-         res.json({ message: 'Core error has happened' });
-      });
-    };
+    .then(function(downloadResults) {
+      console.log("Files are downloaded");
+      fs.readdir('./Resumes', function(err, items) {
+      //   for (var i=0; i<items.length; i++) {
+        //  console.log("path",items[i]);
+
+          textract.fromFileWithPath('./Resumes/'+filename, function( error, text ) {
+            fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
+            if (err) throw err;
+            for (const file of files) {
+             fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+                else
+                {
+                  console.log("Existing files deleted",file);
+                }
+               });
+              }
+            });
+
+           // res.json({ message: 'Files are downloaded' });
+            //nlpParser(text);
+            console.log("file data",text);
+
+          
+          })
+    //    }
+        console.log("finished");
+        })
+      res.json({ message: 'Files are downloaded' });
+    })
+    .catch(function(err) {
+      console.log("Core error has happened", err);
+       res.json({ message: 'Core error has happened' });
+    });
+    
+   }//end of try
+   catch(err)
+   {
+    console.log("Errrrrr",err);
+   } 
+
+}
   }).catch(function()
     {
       console.log("error occurred in getting sendgrid credentials");
     });
-
 }
 
 var emails=""; 
