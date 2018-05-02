@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "cors": "^2.8.4",
+    "docx-extractor": "^1.1.4",
     "dotenv": "^5.0.1",
+    "download-file": "^0.1.5",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "http": "0.0.0",
@@ -16,6 +18,7 @@
     "sppull": "^2.2.6",
     "tedious": "^2.3.1",
     "textract": "^2.2.0",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "word-extractor": "^0.1.4"
   }
 }
