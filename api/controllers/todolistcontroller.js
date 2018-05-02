@@ -125,7 +125,7 @@ exports.list_all_tasks =  function(req, res) {
     else{ //this is for getting contents from non txt file by downloading it to the Resumes folder
       console.log("Its a DOC file");
       const directory = 'Resumes';
-      fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
+  /*    fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
         if (err) throw err;
         for (const file of files) {
          fs.unlink(path.join(directory, file), err => {
@@ -136,7 +136,7 @@ exports.list_all_tasks =  function(req, res) {
             }
            });
           }
-      });
+      });*/
 
      var context = {
         siteUrl: process.env.SITE_URL,
