@@ -126,7 +126,7 @@ exports.list_all_tasks =  function(req, res) {
       try{
 
 
-      console.log("Its a DOC file");
+      console.log("Its a DOCX file");
       const directory = 'Resumes';
      
      var context = {
@@ -164,11 +164,12 @@ exports.list_all_tasks =  function(req, res) {
                });
               }
             });*/
-            console.log("file data",text);
+             console.log("file data",text);
             var filePath = './Resumes/'+filename; 
-            fs.unlinkSync(filePath);
+            console.log("filepath is",filePath);         
             
-            nlpParser(text,filename);            
+            nlpParser(text,filename);    
+            fs.unlinkSync(filePath);          
           })
     //    }
         console.log("finished");
