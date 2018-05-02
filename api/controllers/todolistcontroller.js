@@ -152,7 +152,7 @@ exports.list_all_tasks =  function(req, res) {
         //  console.log("path",items[i]);
 
           textract.fromFileWithPath('./Resumes/'+filename, function( error, text ) {
-            fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
+         /*   fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
             if (err) throw err;
             for (const file of files) {
              fs.unlink(path.join(directory, file), err => {
@@ -163,13 +163,12 @@ exports.list_all_tasks =  function(req, res) {
                 }
                });
               }
-            });
-
-           // res.json({ message: 'Files are downloaded' });
-            //nlpParser(text);
+            });*/
             console.log("file data",text);
-
-          
+            var filePath = './Resumes/'+filename; 
+            fs.unlinkSync(filePath);
+            
+            nlpParser(text,filename);            
           })
     //    }
         console.log("finished");
