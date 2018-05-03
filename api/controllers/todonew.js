@@ -151,10 +151,32 @@ exports.list_all_tasks =  function(req, res) {
       //   for (var i=0; i<items.length; i++) {
         //  console.log("path",items[i]);
 
-fs.stat('./Resumes/'+filename, function(err, stat) {
+/*fs.stat('foo.txt', function(err, stat) {
     if(err == null) {
         console.log('File exists');
-        textract.fromFileWithPath('./Resumes/'+filename, function( error, text ) {
+    } else if(err.code == 'ENOENT') {
+        // file does not exist
+         console.log('Some other error in elseif: ', err.code);
+    } else {
+        console.log('Some other error: ', err.code);
+    }
+});*/
+
+
+
+          textract.fromFileWithPath('./Resumes/'+filename, function( error, text ) {
+         /*   fs.readdir(directory, (err, files) => { //I t removes the existing files in Resumes
+            if (err) throw err;
+            for (const file of files) {
+             fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+                else
+                {
+                  console.log("Existing files deleted",file);
+                }
+               });
+              }
+            });*/
              console.log("file data",text);
             var filePath = './Resumes/'+filename; 
             console.log("filepath is",filePath);         
@@ -166,17 +188,6 @@ fs.stat('./Resumes/'+filename, function(err, stat) {
         console.log("finished");
      //   })
       res.json({ message: 'Files are downloaded' });
-    } else if(err.code == 'ENOENT') {
-        // file does not exist
-         console.log('Some other error in elseif: ', err.code);
-    } else {
-        console.log('Some other error: ', err.code);
-    }
-});
-
-
-
-          
     })
     .catch(function(err) {
       console.log("Core error has happened", err);
