@@ -54,17 +54,19 @@ exports.list_all_tasks =  function(req, res) {
       else
        {
         let  tediousRequest = new Request(
-          "SELECT  Username,Password FROM dbo.Sendgrid_Account",
+          "SELECT  Username,Password FROM dbo.SengridAcct",
           function(err, rowCount, rows) 
             {
                 resolve();
             }
           );
           tediousRequest.on('row', function(columns) {
+            console.log("hihi+++++");
              columns.forEach(function(column) {
              sendgridCredentials[i]=column.value;
              i++;
            });
+
           });
           connection.execSql(tediousRequest);
        }
@@ -74,6 +76,7 @@ exports.list_all_tasks =  function(req, res) {
 
   //End of getting sendgrid credential from azure SqlDB
   promiseTOGetSendgridCredential.then(function(){
+    console.log("sendgridCredentials---------",sendgridCredentials);
     if(extname==".txt") { //this if for getting contents form text file using Sharepoint rest API
   
       console.log("Its a txt file");
