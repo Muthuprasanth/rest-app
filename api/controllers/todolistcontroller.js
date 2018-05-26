@@ -21,7 +21,7 @@ exports.list_all_tasks =  function(req, res) {
   var token="";
   var i=0;
   //Azure SqlDB server and credentials
-  var config = 
+ /* var config = 
    {
      userName: 'Muthuprasanth', // update me
      password: 'Sirius@25', // update me
@@ -31,12 +31,22 @@ exports.list_all_tasks =  function(req, res) {
            database: 'Sendgrid_DB', //update me
            encrypt: true
         }
+   } */
+   var config = 
+   {
+     userName: 'Muthuprasanth038', // update me
+     password: 'Sirius@25', // update me
+     server: 'sendgridcredential.database.windows.net', // update me
+     options: 
+        {
+           database: 'sendgridCred', //update me
+           encrypt: true
+        }
    }
   var connection = new Connection(config);
   //Promise starts to get the sendgrid credential from azure SqlDB
   let promiseTOGetSendgridCredential =  new Promise(function(resolve,reject){
-    connection.on('connect', function(err) 
-     {
+    connection.on('connect', function(err) {
        if (err) 
        {
           console.log(err)
@@ -58,8 +68,7 @@ exports.list_all_tasks =  function(req, res) {
           });
           connection.execSql(tediousRequest);
        }
-     }
-   );
+     });
 
   });
 
@@ -220,11 +229,12 @@ function sendMail(emails,filenames)
         user: sendgridCredentials[0],//provide the login credentials
         key:sendgridCredentials[1]
       });
-sendgrid.send({
+ sendgrid.send({
         to: emails,
         from: 'mprasanth113@gmail.com',
-        subject: 'Azure Mail '+filenames,
-        html: '<h1>Hello Azure!</h1>'
+        subject: 'Interview from XXX company'+filenames,
+       // html: "<h1>Hello Azure!</h1>"+"\n thank you"
+       html: "Hello,"+"\n Congrats! you should attend the interview with our Skype bot"
   }, function (err) {
     if (err) {
       console.log("Mail error",err);

@@ -26,10 +26,12 @@ var context = {
 };
 
 var options = {
-  spRootFolder: "Shared%20Documents",
-//   dlRootFolder: "."
-    dlRootFolder: "./Resumes"
-};
+        spRootFolder: "Shared%20Documents",
+          dlRootFolder: "./Resumes",
+          strictObjects: [
+          filename
+          ]
+      };
 
 const directory = 'Resumes';
 
