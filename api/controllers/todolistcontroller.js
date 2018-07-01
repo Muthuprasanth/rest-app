@@ -12,10 +12,7 @@ var https = require('https');
 var PdfReader = require("pdfReader");
 
 var requestPromise = require("request-promise");
-
 var url = require('url');
-
-var unique = require('array-unique').immutable;
 
 var phrasecount = 10;
 let sendgridCredentials = [];
@@ -30,11 +27,11 @@ exports.list_all_tasks = async function (req, res) {
               });
   */
 
-  //var filename = req.query.filename;
+  var filename = req.query.filename;
 
   //var filename = "Resume_me.docx";
   //var jdfilename ="Bigdata.pdf";
-  var filename = "mahesh.docx";
+  //var filename = "mahesh.docx";
   //var filename = "ramprasad.docx";
  // var filename = "rahul.docx";
   var jdfilename = "Jdazure.docx";
