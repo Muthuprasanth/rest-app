@@ -5,6 +5,8 @@
     "nodemon": "^1.17.3"
   },
   "dependencies": {
+    "array-unique": "^0.3.2",
+    "cognitive-services": "^1.1.0",
     "cors": "^2.8.4",
     "docx-extractor": "^1.1.4",
     "dotenv": "^5.0.1",
@@ -13,11 +15,19 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "natural": "^0.6.1",
+    "pdfreader": "^0.2.5",
+    "promise-retry": "^1.1.1",
+    "q": "^1.5.1",
+    "request-promise": "^4.2.2",
     "sendgrid-web": "0.0.5",
+    "sleep-promise": "^8.0.1",
     "sp-download": "^1.0.3",
     "sppull": "^2.2.6",
+    "string-similarity": "^1.2.0",
     "tedious": "^2.3.1",
     "textract": "^2.2.0",
+    "thesaurus": "0.0.0",
     "url": "^0.11.0",
     "word-extractor": "^0.1.4"
   }
