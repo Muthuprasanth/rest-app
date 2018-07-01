@@ -16,7 +16,7 @@ var url = require('url');
 
 var phrasecount = 10;
 let sendgridCredentials = [];
-exports.list_all_tasks = async function (req, res) {
+exports.list_all_tasks =  function (req, res) {
 
   /*
   let promiseToGetJDintent =  getIntents(JDphrase,[],[],phrasecount);  
