@@ -74,7 +74,7 @@ exports.list_all_tasks =  function (req, res) {
         promiseToGetResumekeyphrases.then(function (resumephrases) {
           resumedetail = resumephrases[1];
           res = resumephrases[2];
-          console.log("response_2",res);
+         // console.log("response_2",res);
           console.log("resumephrase is", resumephrases);
           resumephrase = updatingphrases(resumephrases[0], 0);
           console.log("Updated resumephrase is", resumephrase);
@@ -163,11 +163,12 @@ function sendMail(emails,response)
   //console.log("emails  is",emails[0],"type is",typeof emails);
   //console.log(" Email found in  "+filenames);
   //console.log("email is",emails);
+  console.log("email username and password",sendgridCredentials);
  var sendgrid = new Sendgrid({
         user: sendgridCredentials[0],//provide the login credentials
         key:sendgridCredentials[1]
       });
-    
+   
   sendgrid.send({
         to: emails[0],
         from: 'mprasanth113@gmail.com',
