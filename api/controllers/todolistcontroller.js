@@ -13,6 +13,8 @@ var PdfReader = require("pdfReader");
 
 var requestPromise = require("request-promise");
 var url = require('url');
+var async = require('asyncawait/async');
+var await = require('asyncawait/await');
 
 var phrasecount = 10;
 let sendgridCredentials = [];
