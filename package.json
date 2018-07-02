@@ -7,6 +7,8 @@
   "dependencies": {
     "array-unique": "^0.3.2",
     "asyncawait": "^1.0.7",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
     "cognitive-services": "^1.1.0",
     "cors": "^2.8.4",
     "docx-extractor": "^1.1.4",
