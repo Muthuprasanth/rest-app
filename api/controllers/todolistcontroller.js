@@ -16,6 +16,7 @@ var url = require('url');
 //var async = require('asyncawait/async');
 //var await = require('asyncawait/await');
 
+/*
 const babelRegister = require('babel-register');
 let options = {
   plugins : ['transform-async-to-generator']
@@ -23,7 +24,7 @@ let options = {
 require('babel-polyfill');
 // Register plugin for runtime compilation
 babelRegister(options);
-
+*/
 
 var phrasecount = 10;
 let sendgridCredentials = [];
