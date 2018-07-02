@@ -178,8 +178,9 @@ function sendMail(emails,response)
         "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
   }, function (err) {
     if (err) {
+      response.json({ message: 'Selected but Mail not sended and Error is'+err });
       console.log("Mail error",err);
-      response.json({ message: 'Selected but Mail not sended' });
+   
     } else {
       console.log("Success Mail sended From Azure ");
       response.json({ message: 'Selected and Mail sended' });
