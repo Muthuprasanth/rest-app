@@ -30,6 +30,7 @@ var phrasecount = 10;
 let sendgridCredentials = [];
 exports.list_all_tasks =  function (req, res) {
 
+  //console.log("response",res);
   /*
   let promiseToGetJDintent =  getIntents(JDphrase,[],[],phrasecount);  
               promiseToGetJDintent.then(function(JDintent){
@@ -51,9 +52,14 @@ exports.list_all_tasks =  function (req, res) {
   var resumedetail = "", JDdetail = "";
   var resumekeyphrase, JDkeyphrase;
   console.log("inside main function phrasecount is ", phrasecount);
-  let promiseTOGetsendgridCredentials = getSendgrid();
+  
+  
+  let promiseTOGetsendgridCredentials = getSendgrid(res);
   promiseTOGetsendgridCredentials.then(function (Credentials) {
-    sendgridCredentials = Credentials;
+    sendgridCredentials[0] = Credentials[0];
+    sendgridCredentials[1] = Credentials[1];
+    res = Credentials[2];
+    
     console.log("sendgridCredentials is", sendgridCredentials);
     let promiseTOReadResumeContent = getFile(filename, 'Shared%20Documents', 'Resumes');
     //let promiseTOReadResumeContent = getFile(jdfilename,'Shared%20Documents','JD');
@@ -64,20 +70,23 @@ exports.list_all_tasks =  function (req, res) {
       promiseTOReadJDContent.then(function (JDcontent) {
         JDdetail = JDcontent;
         console.log("JDdetail is", JDdetail);
-        let promiseToGetResumekeyphrases = textanalyics(resumedetail,resumedetail);
+        let promiseToGetResumekeyphrases = textanalyics(resumedetail,resumedetail,res);
         promiseToGetResumekeyphrases.then(function (resumephrases) {
           resumedetail = resumephrases[1];
+          res = resumephrases[2];
+          console.log("response_2",res);
           console.log("resumephrase is", resumephrases);
           resumephrase = updatingphrases(resumephrases[0], 0);
           console.log("Updated resumephrase is", resumephrase);
-          let promiseToGetJDkeyphrases = textanalyics(JDdetail,resumedetail);
+          let promiseToGetJDkeyphrases = textanalyics(JDdetail,resumedetail,res);
           promiseToGetJDkeyphrases.then(function (JDphrases) {
             resumedetail = JDphrases[1];
+            res = JDphrases[2];
             console.log("JDphrase is", JDphrases);
             JDphrase = updatingphrases(JDphrases[0], 1);
             console.log("Updated JDphrase is", JDphrases);
 
-             let promiseToGetJDintent  =  helper2(JDphrase,resumephrase,phrasecount,resumedetail);
+             let promiseToGetJDintent  =  helper2(JDphrase,resumephrase,phrasecount,resumedetail,res);
 
 
           }).catch(function (error) {
@@ -95,6 +104,7 @@ exports.list_all_tasks =  function (req, res) {
   }).catch(function (error) {
     console.log("Error in Getting sendgridCredentials is", error.message);
   });
+  
 }
 
 function resolveAfter2Seconds() {
@@ -107,9 +117,11 @@ function resolveAfter2Seconds() {
   });
 }
 
-async function helper2(JDphrase,resumephrase,phrasecount,resumedetail)
+async function helper2(JDphrase,resumephrase,phrasecount,resumedetail,res)
 {
+  console.log("Inside helper2");
 let resumecontent="";
+
  let JDintentarray=[],resumeintentarray=[]; 
   for(let a=0;a<phrasecount;a++)
   {
@@ -122,6 +134,7 @@ let resumecontent="";
   }
   console.log("after FIRST for loop",JDintentarray);
   resumecontent = resumedetail;
+  let response = res;
   for(let b=0;b<phrasecount;b++)
   {
     resumeintentarray[b] = await getIntents(resumephrase[b]);
@@ -138,10 +151,14 @@ let resumecontent="";
   {
   let email = getEmailsFromString(resumecontent);
   console.log("email",email,typeof email);
-  sendMail(email);
+  sendMail(email,response);
+  }
+  else{
+    console.log("Candidate total is "+total+"and rejected");
+    response.json({ message: 'You are rejected' });
   }
 }
-function sendMail(emails)
+function sendMail(emails,response)
 {
   //console.log("emails  is",emails[0],"type is",typeof emails);
   //console.log(" Email found in  "+filenames);
@@ -161,9 +178,10 @@ function sendMail(emails)
   }, function (err) {
     if (err) {
       console.log("Mail error",err);
+      response.json({ message: 'Selected but Mail not sended' });
     } else {
       console.log("Success Mail sended From Azure ");
-
+      response.json({ message: 'Selected and Mail sended' });
     }
   });
   //textanalyics();
@@ -211,9 +229,10 @@ return total;
 
 function getIntents(resumekeyphrase) {
 
+  console.log("Inside getIntents");
   //var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/390a8529-08d9-4357-ba94-d9c679e383cd?subscription-key=f63fdc559ec44b90a3f4b84b46ed9de8&verbose=true&timezoneOffset=0&q=";
   //var luisserverurl ="https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6ed560f1-638a-4937-ba81-526ae022b8b0?subscription-key=68122825e63d457f91413c632fc73cf7&verbose=true&timezoneOffset=0&q=";
-  var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/650ee490-efc6-4b38-acde-ba4fb6c19778?subscription-key=654194938b904fe08bc25dbf0a03393b&verbose=true&timezoneOffset=0&q="+resumekeyphrase;
+  var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/7d934a5b-4f10-4fce-bebf-4d46fc9f0aed?subscription-key=53cb16a9965349a88b557173174a7199&verbose=true&timezoneOffset=0&q="+resumekeyphrase;
 
   var options4 = {
     method: 'get',
@@ -238,7 +257,6 @@ function getIntents(resumekeyphrase) {
       }
     });
   });
-
       
 }
 
@@ -269,7 +287,7 @@ function updatingphrases(phrase, flag) {
     */
 }
 
-function textanalyics(text,resumedetail) {
+function textanalyics(text,resumedetail,res) {
   let body_;
   console.log("inside textanalytics");
   let documents = {
@@ -303,6 +321,7 @@ function textanalyics(text,resumedetail) {
         let keyphrasesarray =[];
         keyphrasesarray[0]= keyphrases;
         keyphrasesarray[1]= resumedetail;
+        keyphrasesarray[2]= res;
         // console.log ("output type is", typeof keyphrases,Object.keys(keyphrases).length);  
         // console.log ("output is",body_.documents[0].keyPhrases[146]);  
         // console.log ("output keyphrases is",body_.documents[0].keyPhrases);   
@@ -470,7 +489,7 @@ function getFile(filename, foldername, localfolder) {
   });
 }
 
-function getSendgrid() {
+function getSendgrid(res) {
   
   var config =
   {
@@ -496,6 +515,7 @@ function getSendgrid() {
         let tediousRequest = new Request(
           "SELECT  username,password FROM dbo.userdetails",
           function (err, rowCount, rows) {
+            sendgridCredentials[2] = res;
             resolve(sendgridCredentials);
           }
         );
