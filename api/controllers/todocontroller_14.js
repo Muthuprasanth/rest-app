@@ -107,23 +107,13 @@ exports.list_all_tasks =  function (req, res) {
   
 }
 
-function resolveAfter3Seconds() {
+function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(() => {
       console.log("before");
       resolve('resolved');
       console.log("after");
     }, 3000);
-  });
-}
-
-function resolveAfter1Seconds() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      console.log("1-before");
-      resolve('resolved');
-      console.log("1-after");
-    }, 1000);
   });
 }
 
@@ -135,32 +125,24 @@ let resumecontent="";
  let JDintentarray=[],resumeintentarray=[]; 
   for(let a=0;a<phrasecount;a++)
   {
-    
-      JDintentarray[a] = await getIntents(JDphrase[a]);
-      console.log("JD");
-      if((a+1)%5==0)
-      {
-        await resolveAfter3Seconds();
-      }
-      await resolveAfter1Seconds();
-  
-    
+    JDintentarray[a] = await getIntents(JDphrase[a]);
+    console.log("JD");
+    if((a+1)%5==0)
+    {
+      await resolveAfter2Seconds();
+    }
   }
   console.log("after FIRST for loop",JDintentarray);
   resumecontent = resumedetail;
   let response = res;
   for(let b=0;b<phrasecount;b++)
   {
-    
-   // resumeintentarray[b] = await getIntents(resumephrase[b]);
-    resumeintentarray[b] =  await getIntents(resumephrase[b]);
-      console.log("REsume");
-      if((b+1)%5==0)
-      {
-        await resolveAfter3Seconds();
-      }
-      await resolveAfter1Seconds();
-   
+    resumeintentarray[b] = await getIntents(resumephrase[b]);
+    console.log("REsume");
+    if((b+1)%5==0)
+    {
+      await resolveAfter2Seconds();
+    }
   }
   console.log("after SECOND for loop",resumeintentarray);
   let total = phraseCompariosion(JDintentarray,resumeintentarray);
