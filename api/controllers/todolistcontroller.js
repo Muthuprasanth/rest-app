@@ -174,7 +174,7 @@ function sendMail(emails,response)
         from: 'mprasanth113@gmail.com',
         subject: 'Interview from XXX company',
         // html: "<h1>Hello Azure!</h1>"+"\n thank you"
-        html: "Hello,"+"\n Congrats! you should attend the interview with our Skype bot   "+
+        html: "Hello,"+"\n Congrats! you are going to attend the interview with our Skype bot   "+
         "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
   }, function (err) {
     if (err) {
