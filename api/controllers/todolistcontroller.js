@@ -252,7 +252,7 @@ function getIntents(resumekeyphrase) {
   console.log("Inside getIntents");
   //var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/390a8529-08d9-4357-ba94-d9c679e383cd?subscription-key=f63fdc559ec44b90a3f4b84b46ed9de8&verbose=true&timezoneOffset=0&q=";
   //var luisserverurl ="https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/6ed560f1-638a-4937-ba81-526ae022b8b0?subscription-key=68122825e63d457f91413c632fc73cf7&verbose=true&timezoneOffset=0&q=";
-  var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/7d934a5b-4f10-4fce-bebf-4d46fc9f0aed?subscription-key=53cb16a9965349a88b557173174a7199&verbose=true&timezoneOffset=0&q="+resumekeyphrase;
+  var luisserverurl = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/776ca407-690b-4737-8405-c3e5bba3733c?subscription-key=68f099aea1844ff88bd8ed4fb7452111&verbose=true&timezoneOffset=0&q="+resumekeyphrase;
 
   var options4 = {
     method: 'get',
