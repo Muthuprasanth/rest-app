@@ -192,8 +192,10 @@ function sendMail(emails,response)
         from: 'mprasanth113@gmail.com',
         subject: 'Interview from XXX company',
         // html: "<h1>Hello Azure!</h1>"+"\n thank you"
-        html: "Hello,"+"\n Congrats! you are going to attend the interview with our Skype bot   "+
-        "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
+        html: "Hello,"+"\n Congrats! you are going to attend the interview with our Skype bot   "+       
+        "<a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'>Click me</a>",
+       // "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
+
   }, function (err) {
     if (err) {
       response.json({ message: 'Selected but Mail not sended and Error is'+err });
@@ -511,6 +513,17 @@ function getFile(filename, foldername, localfolder) {
 
 function getSendgrid(res) {
   
+ /* var config =
+  {
+    userName: 'Muthuprasanth', // update me
+    password: 'Sirius@25', // update me
+    server: 'textanalsisapi.database.windows.net', // update me
+    options:
+    {
+      database: 'textanalayserapi', //update me
+      encrypt: true
+    }
+  }*/
   var config =
   {
     userName: 'Muthuprasanth', // update me
@@ -522,6 +535,7 @@ function getSendgrid(res) {
       encrypt: true
     }
   }
+
   var connection = new Connection(config);
   
   var i = 0;
