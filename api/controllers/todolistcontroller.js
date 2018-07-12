@@ -11,13 +11,44 @@ var Request = require('tedious').Request;
 var https = require('https');
 var PdfReader = require("pdfReader");
 
-var requestPromise = require("request-promise");
 var url = require('url');
 var juice = require('juice');
+var base64Img = require('base64-img');
+const sgMail = require('@sendgrid/mail');
 
 var phrasecount = 10;
 let sendgridCredentials = [];
 exports.list_all_tasks =  function (req, res) {
+ /* var base64str = base64_encode("sirius_logo.png");
+  console.log("data is ",typeof base64str, base64str );
+ let htmlstart="<!DOCTYPE html> <html><head><style> body {padding:10px; }"
+ + ".sign{ width:1.7812in;height:0.6145in; }.hrname{margin:10px 0 0 0} .phone{color:rgb(102, 102, 102);margin:0} .web{color:rgb(48, 74, 134);} .line{margin:0 5px;} .email{color:#0000FF} </style></head><body>";
+ let htmlend  = "</body></html>";
+ let response1 = htmlstart+ "Response <img src='content_id:myimagecid'  alt='no image found' class='sign'/> Close" + htmlend;
+ let response2 =  juice(response1);
+ console.log(" response2 = ",response2);
+
+  sgMail.send({
+    to: 'mprasanth113@gmail.com',
+    from: 'mprasanth113@gmail.com',
+  //   cc:"sendgriduser112@gmail.com",
+    subject: 'Interview from Sirius Computer Solutions India Pvt Ltd ',
+  html: response2,
+   // cid:'myimagecid',
+   attachments: 
+      [{
+      content: base64str,
+      disposition:'inline',
+      type : 'image/png',
+      filename: 'sirius_logo.png',     
+    //   path: "images",     
+        // contentType:  'image/jpeg',
+      
+       content_id: 'myimagecid',   
+      },],
+});*/
+
+
   
   var filename = req.query.filename;
   //var filename = "Resume_me.docx";
@@ -81,6 +112,16 @@ exports.list_all_tasks =  function (req, res) {
     console.log("Error in Getting sendgridCredentials is", error.message);
   });
  // sendMail(["mprasanth113@gmail.com","test"],res);
+ /*base64Img.base64('sirius_logo.png', function(err, data) {
+ var base64File = new Buffer("sirius_logo.png").toString('base64');
+  //data += " encoding";
+ // console.log("data is ",data);
+ console.log("data is ",base64File);
+   sendMail(["mprasanth113@gmail.com","test"],res,base64File);
+ });*/
+ //var base64str = base64_encode("sirius_logo.png");
+ //console.log("data is ",base64str);
+ //sendMail(["mprasanth113@gmail.com"],base64str);
 }
 
 function resolveAfter3Seconds() {
@@ -152,17 +193,25 @@ let resumecontent="";
     response.json({ message: 'You are rejected' });
   }
 }
+function base64_encode(file) {
+  var bitmap = fs.readFileSync(file);
+  return new Buffer(bitmap).toString("base64");
+}
+
+
 function sendMail(emails,response)
 {
   //console.log("emails  is",emails[0],"type is",typeof emails);
   //console.log(" Email found in  "+filenames);
   //console.log("email is",emails);
- // console.log("email username and password",sendgridCredentials);
-  var sendgrid = new Sendgrid({
-        user: sendgridCredentials[0],//provide the login credentials
-        key:sendgridCredentials[1]
-      });
-
+  console.log("email username and password",sendgridCredentials);
+ /* var sendgrid = new Sendgrid({
+    user: sendgridCredentials[0],//provide the login credentials
+    key:sendgridCredentials[1]
+  });*/
+  sgMail.setApiKey(sendgridCredentials[1]);
+  var base64str = base64_encode("sirius_logo.png");
+  console.log("data is ",typeof base64str, base64str );
       /*let bitmap = fs.readFileSync("images");
       imageBase64URL = new Buffer(bitmap).toString('base64');*/
   let htmlstart="<!DOCTYPE html> <html><head><style> body {padding:10px; }"
@@ -173,10 +222,10 @@ function sendMail(emails,response)
   "<p><b>Please follow the below instructions to start your Interview</b></p>"+
   "<ol>"+
       "<li>Signup/Login with Skype</li>"+
-     "<li>Click<a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'> Here</a> to start Interview</li>"+
+     "<li>Click<a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'> Here</a> to start nterview</li>"+
      "<li>Once the chat window opens, say <b>Hi</b></li>"+
   "</ol>"+
-  "<div><img src='cid:myimagecid' alt='no image found' class='sign'/></div><h4 class = 'hrname'>Human Resources</h4><p class='phone'>Office (India): +91 44 6650 7800 </p>"+
+  "<div><img src='content_id:myimagecid'  alt='no image found' class='sign'/></div><h4 class = 'hrname'>Human Resources</h4><p class='phone'>Office (India): +91 44 6650 7800 </p>"+
   "<span><a href='http://www.siriuscom.com' class = 'web'>www.siriuscom.com</a></span><span class='line'>|</span><span class='email'>Sirius.IndiaHR@siriuscom.com</span>";
   // "<p><a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'>Click me</a> for the next round of Interview</p> <br><br>" +
   // "<img src='cid:testme' alt='graphic'/>";
@@ -185,42 +234,56 @@ function sendMail(emails,response)
   let response2 =  juice(response1);
   console.log(" response2 = ",response2);
 
-  sendgrid.send({
+  sgMail.send({
       to: emails[0],
       from: 'mprasanth113@gmail.com',
     //   cc:"sendgriduser112@gmail.com",
       subject: 'Interview from Sirius Computer Solutions India Pvt Ltd ',
+     /* content:(data | Buffer),
+      filename: 'sirius_logo.png', 
+      cid: 'myimagecid',
+      type : 'image/png',
+      disposition:"inline",
+      encoding: "base64",*/
+     // attachments:attach,
+     attachments: 
+      [{
+      content: base64str,
+      disposition:'inline',
+      type : 'image/png',
+      filename: 'sirius_logo.png',     
+    //   path: "images",     
+        // contentType:  'image/jpeg',
+      
+       content_id: 'myimagecid',   
+      },],
+      html: response2,
      // cid:'myimagecid',
-  /* attachments: 
-        {
-        //  content: Buffer,
-         // type : 'image/jpeg',
+    /* attachments: 
+        [{
+        // content: Buffer,
+        content: (data | Buffer),
+         type : 'image/png',
          filename: 'sirius_logo.png',     
-         path: "/images",     
+      //   path: "images",     
           // contentType:  'image/jpeg',
          disposition:"inline",
-         cid:          'myimagecid',
+         contentId: 'myimagecid',
          
          // content:      ('yourbase64encodedimageasastringcangohere' | Buffer)
          
-        },*/
-      /*  files: [
+        },],*/
+       /* files: [
           {
-            filename: 'GooglePay_Lockup.max_1000x1000.0.png',          // required only if file.content is used.
-            url: 'https://cdn.vox-cdn.com/thumbor/2Gx0MqNg5DKbzE9sD2uTSGKFNVM=/0x0:1000x604/1200x800/filters:focal(420x222:580x382)/cdn.vox-cdn.com/uploads/chorus_image/image/58245867/GooglePay_Lockup.max_1000x1000.0.png',               // == One of these three options is required
-            content: ('testme' | Buffer) //
+            filename: "sirius_logo.png",
+            content: ("image" | Buffer),
+            content_id: "myimagecid",
+            contentType: "image/png",
+            disposition:"inline",
           }
         ],*/
-      /*  attachments: [
-          {
-             content: imageBase64URL,
-             filename: 'sirius_logo.png',
-             contentId: 'myimagecid',
-             disposition: 'inline'
-          },
-       ],*/
       // html: "<h1>Hello Azure!</h1>"+"\n thank you"
-      html: response2,
+      
       // "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
 
   }, function (err) {
@@ -559,7 +622,7 @@ function getSendgrid(res) {
       }
       else {
         let tediousRequest = new Request(
-          "SELECT  username,password FROM dbo.userdetails",
+          "SELECT  username,sendkey FROM dbo.userdetails",
           function (err, rowCount, rows) {
             sendgridCredentials[2] = res;
             resolve(sendgridCredentials);
