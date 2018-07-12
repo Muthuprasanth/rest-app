@@ -15,8 +15,7 @@ var url = require('url');
 var juice = require('juice');
 var base64Img = require('base64-img');
 const sgMail = require('@sendgrid/mail');
-
-sgMail.setApiKey("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");
+sgMail.setApiKey();
 var phrasecount = 10;
 let sendgridCredentials = [];
 exports.list_all_tasks =  function (req, res) {
@@ -221,10 +220,7 @@ function sendMail(emails,data)
     user: sendgridCredentials[0],//provide the login credentials
     key:sendgridCredentials[1]
   });*/
-  var sendgrid = new Sendgrid({
-    user: "Muthuprasanth1121",//provide the login credentials
-    key:"Sirius@25",
-  });
+
   var attach = [];
 
   attach.push({
