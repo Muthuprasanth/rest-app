@@ -225,7 +225,7 @@ function sendMail(emails,response)
      "<li>Click<a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'> Here</a> to start nterview</li>"+
      "<li>Once the chat window opens, say <b>Hi</b></li>"+
   "</ol>"+
-  "<div><img src='content_id:myimagecid'  alt='no image found' class='sign'/></div><h4 class = 'hrname'>Human Resources</h4><p class='phone'>Office (India): +91 44 6650 7800 </p>"+
+  "<div><img src='https://image.ibb.co/grmLHo/sirius_Logo_Mail.png'  alt='no image found' class='sign'/></div><h4 class = 'hrname'>Human Resources</h4><p class='phone'>Office (India): +91 44 6650 7800 </p>"+
   "<span><a href='http://www.siriuscom.com' class = 'web'>www.siriuscom.com</a></span><span class='line'>|</span><span class='email'>Sirius.IndiaHR@siriuscom.com</span>";
   // "<p><a href='https://join.skype.com/bot/9c011e01-a307-4aa5-b9a6-13b3b5df47d1'>Click me</a> for the next round of Interview</p> <br><br>" +
   // "<img src='cid:testme' alt='graphic'/>";
@@ -233,7 +233,6 @@ function sendMail(emails,response)
   let response1 = htmlstart+ content + htmlend;
   let response2 =  juice(response1);
   console.log(" response2 = ",response2);
-
   sgMail.send({
       to: emails[0],
       from: 'mprasanth113@gmail.com',
@@ -241,12 +240,8 @@ function sendMail(emails,response)
       subject: 'Interview from Sirius Computer Solutions India Pvt Ltd ',
      /* content:(data | Buffer),
       filename: 'sirius_logo.png', 
-      cid: 'myimagecid',
-      type : 'image/png',
-      disposition:"inline",
       encoding: "base64",*/
-     // attachments:attach,
-     attachments: 
+    /* attachments: 
       [{
       content: base64str,
       disposition:'inline',
@@ -256,34 +251,8 @@ function sendMail(emails,response)
         // contentType:  'image/jpeg',
       
        content_id: 'myimagecid',   
-      },],
-      html: response2,
-     // cid:'myimagecid',
-    /* attachments: 
-        [{
-        // content: Buffer,
-        content: (data | Buffer),
-         type : 'image/png',
-         filename: 'sirius_logo.png',     
-      //   path: "images",     
-          // contentType:  'image/jpeg',
-         disposition:"inline",
-         contentId: 'myimagecid',
-         
-         // content:      ('yourbase64encodedimageasastringcangohere' | Buffer)
-         
-        },],*/
-       /* files: [
-          {
-            filename: "sirius_logo.png",
-            content: ("image" | Buffer),
-            content_id: "myimagecid",
-            contentType: "image/png",
-            disposition:"inline",
-          }
-        ],*/
-      // html: "<h1>Hello Azure!</h1>"+"\n thank you"
-      
+      },],*/
+      html: response2,    
       // "<a href='https://join.skype.com/bot/3935f689-309f-4bea-a782-dd4fdce254b4'>Click me</a>",
 
   }, function (err) {
