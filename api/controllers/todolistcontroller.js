@@ -193,10 +193,11 @@ let resumecontent="";
     response.json({ message: 'You are rejected' });
   }
 }
-function base64_encode(file) {
+/*function base64_encode(file) {
   var bitmap = fs.readFileSync(file);
   return new Buffer(bitmap).toString("base64");
 }
+*/
 
 
 function sendMail(emails,response)
@@ -210,7 +211,7 @@ function sendMail(emails,response)
     key:sendgridCredentials[1]
   });*/
   sgMail.setApiKey(sendgridCredentials[1]);
-  var base64str = base64_encode("sirius_logo.png");
+ // var base64str = base64_encode("sirius_logo.png");
   //console.log("data is ",typeof base64str, base64str );
       /*let bitmap = fs.readFileSync("images");
       imageBase64URL = new Buffer(bitmap).toString('base64');*/
