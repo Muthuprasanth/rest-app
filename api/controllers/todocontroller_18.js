@@ -380,7 +380,8 @@ function textanalyics(text,resumedetail,res) {
   var options3 = {
     method: 'post',
     headers: {
-      'Ocp-Apim-Subscription-Key':'5675f88386734d2a9779bb5eaf48ffea',
+     // 'Ocp-Apim-Subscription-Key': 'ad883f4fcd994bc190b723810ac525c5',
+      'Ocp-Apim-Subscription-Key':'861ca2bd458d45e89b10575963917cec',
       // 'Content-Type':'application/json',
       // 'Accept':'application/json',
     },
@@ -574,10 +575,10 @@ function getSendgrid(res) {
   {
     userName: 'Muthuprasanth', // update me
     password: 'Sirius@25', // update me
-    server: 'sendgridserver.database.windows.net', // update me
+    server: 'textanalsisapi.database.windows.net', // update me
     options:
     {
-      database: 'sendgridDB11', //update me
+      database: 'textanalayserapi', //update me
       encrypt: true
     }
   }
