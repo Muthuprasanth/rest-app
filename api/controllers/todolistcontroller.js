@@ -1,5 +1,6 @@
 //'use strict';
 //lates before move to new azure account
+//https://siriuscomsharepoint.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2FShared%20Documents
 require('dotenv').config();
 var fs = require("fs");
 var path = require('path');
@@ -20,41 +21,11 @@ const sgMail = require('@sendgrid/mail');
 var phrasecount = 10;
 let sendgridCredentials = [];
 exports.list_all_tasks =  function (req, res) {
- /* var base64str = base64_encode("sirius_logo.png");
-  console.log("data is ",typeof base64str, base64str );
- let htmlstart="<!DOCTYPE html> <html><head><style> body {padding:10px; }"
- + ".sign{ width:1.7812in;height:0.6145in; }.hrname{margin:10px 0 0 0} .phone{color:rgb(102, 102, 102);margin:0} .web{color:rgb(48, 74, 134);} .line{margin:0 5px;} .email{color:#0000FF} </style></head><body>";
- let htmlend  = "</body></html>";
- let response1 = htmlstart+ "Response <img src='content_id:myimagecid'  alt='no image found' class='sign'/> Close" + htmlend;
- let response2 =  juice(response1);
- console.log(" response2 = ",response2);
 
-  sgMail.send({
-    to: 'mprasanth113@gmail.com',
-    from: 'mprasanth113@gmail.com',
-  //   cc:"sendgriduser112@gmail.com",
-    subject: 'Interview from Sirius Computer Solutions India Pvt Ltd ',
-  html: response2,
-   // cid:'myimagecid',
-   attachments: 
-      [{
-      content: base64str,
-      disposition:'inline',
-      type : 'image/png',
-      filename: 'sirius_logo.png',     
-    //   path: "images",     
-        // contentType:  'image/jpeg',
-      
-       content_id: 'myimagecid',   
-      },],
-});*/
-
-
-  
   var filename = req.query.filename;
   //var filename = "Resume_me.docx";
   //var jdfilename ="Bigdata.pdf";
-  //var filename = "mahesh.docx";
+  var filename = "mahesh_1.docx";
   //var filename = "ramprasad.docx";
   //var filename = "rahul.docx";
   var jdfilename = "Jdazure.docx";
@@ -194,12 +165,6 @@ let resumecontent="";
     response.json({ message: 'You are rejected' });
   }
 }
-/*function base64_encode(file) {
-  var bitmap = fs.readFileSync(file);
-  return new Buffer(bitmap).toString("base64");
-}
-*/
-
 
 function sendMail(emails,response)
 {
@@ -212,10 +177,7 @@ function sendMail(emails,response)
     key:sendgridCredentials[1]
   });*/
   sgMail.setApiKey(sendgridCredentials[1]);
- // var base64str = base64_encode("sirius_logo.png");
-  //console.log("data is ",typeof base64str, base64str );
-      /*let bitmap = fs.readFileSync("images");
-      imageBase64URL = new Buffer(bitmap).toString('base64');*/
+
   let htmlstart="<!DOCTYPE html> <html><head><style> body {padding:10px; }"
   + ".sign{ width:1.7812in;height:0.6145in; }.hrname{margin:10px 0 0 0} .phone{color:rgb(102, 102, 102);margin:0} .web{color:rgb(48, 74, 134);} .line{margin:0 5px;} .email{color:#0000FF} </style></head><body>";
   let htmlend  = "</body></html>";
