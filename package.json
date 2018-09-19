@@ -1,6 +1,9 @@
 {
   "name": "",
   "version": "",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
   "devDependencies": {
     "nodemon": "^1.17.3"
   },
